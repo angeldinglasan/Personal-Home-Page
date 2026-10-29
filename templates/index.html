@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ full_name }} | Hire Me</title>
+<link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+
+<nav>
+  <a class="logo" href="#home">{{ logo }}</a>
+  <ul>
+    <li><a class="link" href="#about">About</a></li>
+    <li><a class="link" href="#skills">Skills</a></li>
+    <li><a class="link" href="#projects">Projects</a></li>
+    <li><a class="link" href="#background">Background</a></li>
+    <li><a class="link" href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="container">
+
+  <div class="hero" id="home">
+    <div class="hero-text">
+      <span class="tag">{{ tag_text }}</span>
+      <h1>{{ greeting }} <em>{{ display_name }}</em></h1>
+      <p class="lead">{{ hero_text }}</p>
+      <a class="btn primary" href="#contact">Get in Touch</a>
+      <a class="btn ghost" href="#projects">View Projects</a>
+    </div>
+    <div class="avatar">
+      <img src="{{ url_for('static', filename='photo.jpg') }}" alt="{{ full_name }}">
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <p class="eyebrow">01 / About</p>
+    <h2>About Me</h2>
+    <div class="card about">
+      <p>{{ about_text|safe }}</p>
+      <div class="facts">
+        {% for chip in about_chips %}
+        <span class="chip">{{ chip }}</span>
+        {% endfor %}
+      </div>
+      <p class="location">Location: {{ location }}</p>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <p class="eyebrow">02 / Skills</p>
+    <h2>Skills &amp; Strengths</h2>
+    <div class="grid">
+      {% for skill in skills %}
+      <div class="card skill">
+        <div class="ico"><svg viewBox="0 0 24 24">{{ skill.icon|safe }}</svg></div>
+        <h3>{{ skill.name }}</h3>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <p class="eyebrow">03 / Projects</p>
+    <h2>Academic Projects/Collaboration</h2>
+    <div class="projects">
+      {% for project in projects %}
+      <div class="card project">
+        <span class="label">Academic Project/Collaboration</span>
+        <h4>{{ project.title }}</h4>
+        <p>{{ project.text }}</p>
+        <div class="tags">
+          {% for tag in project.tags %}
+          <span class="chip">{{ tag }}</span>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- BACKGROUND -->
+  <section id="background">
+    <p class="eyebrow">04 / Background</p>
+    <h2>Education &amp; Experience</h2>
+    <div class="two">
+
+      <div class="card">
+        <h3 class="title">Education</h3>
+        <div class="item">
+          <h4>{{ edu_degree }}</h4>
+          <div class="meta">{{ edu_major }}</div>
+          <p>{{ edu_school }}</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 class="title">Certifications</h3>
+        {% for cert in cert_names %}
+        <div class="item">
+          <h4>{{ cert }}</h4>
+          <div class="meta">{{ cert_from }}</div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="card">
+        <h3 class="title">Experience</h3>
+        <div class="item">
+          <h4>{{ exp_title }}</h4>
+          <div class="meta">{{ exp_place }}</div>
+          <p>{{ exp_text }}</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-wrap">
+      <div class="contact-left">
+        <p class="eyebrow">05 / Contact</p>
+        <h2>Let's connect.</h2>
+        <p>Send a message or reach me directly through my e-mail. I'd love to hear from you.</p>
+        <a class="mail" href="mailto:{{ email }}">{{ email }}</a>
+      </div>
+
+      <form class="card" action="/send" method="POST">
+
+        {% with messages = get_flashed_messages() %}
+          {% for message in messages %}
+          <div class="message-box">{{ message }}</div>
+          {% endfor %}
+        {% endwith %}
+
+        <label for="name">Your name</label>
+        <input id="name" type="text" name="name" placeholder="Type your name" required>
+
+        <label for="email">Email</label>
+        <input id="email" type="email" name="email" placeholder="yourname@email.com" required>
+
+        <label for="message">Message</label>
+        <textarea id="message" name="message" placeholder="Write your message here..." required></textarea>
+
+        <button class="btn primary" type="submit">Send message</button>
+      </form>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="container foot">
+    <span class="brand">{{ logo }}</span>
+    <span>{{ footer_text }}</span>
+    <a href="#home">Back to top</a>
+  </div>
+</footer>
+
+</body>
+</html>
